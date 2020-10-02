@@ -11,6 +11,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+
 /**
  *
  * @author USER
@@ -18,12 +20,13 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
+
 public class StudentBean implements Serializable {
     private static final long serialVersionUID = 1L;
      
      private List<Student> list;
     private Student item = new Student();
-    private Student beforeEditItem = null;
+    private Student editItem = null;
     private boolean edit;
     
     @PostConstruct
@@ -32,7 +35,6 @@ public class StudentBean implements Serializable {
     }
     
     public void add() {
-        // DAO save the add
         item.setId(list.isEmpty() ? 1 : list.get(list.size() - 1).getId() + 1);
         list.add(item);
         item = new Student();
@@ -43,25 +45,23 @@ public class StudentBean implements Serializable {
     }
     
     public void edit(Student item) {
-        beforeEditItem = item.clone();
+       editItem = item.clone();
         this.item = item;
         edit = true;
     }
     
     public void cancelEdit() {
-        this.item.restore(beforeEditItem);
+        this.item.restore(editItem);
         this.item = new Student();
         edit = false;
     }
     
     public void saveEdit() {
-        // DAO save the edit
         this.item = new Student();
         edit = false;
     }
     
     public void delete(Student item) throws IOException {
-        // DAO save the delete
         list.remove(item);
     }
     
@@ -70,10 +70,13 @@ public class StudentBean implements Serializable {
     }
     
     public Student getItem() {
-        return this.item;
+            return this.item;
     }
     
     public boolean isEdit() {
         return this.edit;
     }
+    
+    
+    
 }

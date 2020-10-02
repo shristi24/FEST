@@ -27,6 +27,7 @@ public class Student implements Serializable {
     String program;
 
     public Student() {
+        this.faculty = "Management";
     }
 
     public Student(Long id, String firstname, String middlename, String lastname, String faculty, String program) {
